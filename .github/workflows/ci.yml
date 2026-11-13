@@ -1,0 +1,66 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+# A newer push to the same branch or pull request cancels the run still going.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    # Only in this repository, and for pull requests only from its own branches, such as Dependabot's:
+    # not in forks, and not for pull requests from forks, which is how people outside it propose changes.
+    if: >-
+      github.repository_owner == 'munetoshi' &&
+      (github.event_name != 'pull_request' || github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      # Gradle runs on the JDK that the viewer app bundles, so that it need not download that one.
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/setup-gradle@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1
+      # The build logic's tests; the library, the viewer and the demo deck, with their tests and the
+      # check that THIRD_PARTY_NOTICES.md is up to date; then the demo's slides and transitions off-screen.
+      - run: ./gradlew :buildSrc:test build :demo-runner:snapshots
+      # The viewer compiles the demo at runtime, with the Kotlin compiler it bundles, and exports it.
+      # On Linux the PDF's pages are images, as skpdf is built only on macOS.
+      - run: ./gradlew :viewer:run --args="--pdf build/ci/demo.pdf examples/demo"
+      - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        if: always()
+        with:
+          name: snapshots
+          path: |
+            demo-runner/build/snapshots
+            build/ci
+          retention-days: 7
+
+  # Sends the resolved Gradle dependencies to GitHub for Dependabot alerts, as GitHub cannot read them
+  # from the build files.
+  dependency-submission:
+    if: github.repository_owner == 'munetoshi' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-java@77dd5b2ce225ea11469928ac317850245a74ae78 # v6.2.0
+        with:
+          distribution: temurin
+          java-version: 25
+      - uses: gradle/actions/dependency-submission@8da46b539cd8fe6ab27ca75128919a18d757604c # v6.4.1

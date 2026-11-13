@@ -1,0 +1,75 @@
+<resources>
+    <!-- Menus -->
+    <string name="menu_file">File</string>
+    <string name="menu_view">View</string>
+    <string name="menu_new_deck">New Deck…</string>
+    <string name="menu_open_deck">Open Deck File…</string>
+    <string name="menu_open_deck_folder">Open Deck Folder…</string>
+    <string name="menu_open_recent">Open Recent</string>
+    <string name="menu_clear_recent">Clear Menu</string>
+    <string name="menu_reload">Reload</string>
+    <string name="menu_reveal_in_finder">Reveal in Finder</string>
+    <string name="menu_close_deck">Close Deck</string>
+    <string name="menu_theme">Theme</string>
+    <string name="theme_deck_default">Deck Default</string>
+    <string name="menu_choose_theme_file">Choose Theme File…</string>
+
+    <!-- File dialogs -->
+    <string name="dialog_open_deck">Open Slide Deck (.kt)</string>
+    <string name="dialog_open_deck_folder">Open Slide Deck Folder</string>
+    <string name="dialog_new_deck">New Slide Deck</string>
+    <string name="dialog_safe_mode_files">Choose the Files the Deck Uses</string>
+    <string name="dialog_choose_theme">Choose a Theme (.kt)</string>
+
+    <!-- Home window -->
+    <string name="home_intro">An app for slides written in Kotlin and Jetpack Compose. Open a .kt file (or a folder of them) that declares `val deck = presentation { … }`. It reloads every time you save.</string>
+    <string name="compiling_deck">Compiling %1$s… (the first build may take a while)</string>
+    <string name="button_open_deck">Open Deck File…</string>
+    <string name="button_open_folder">Open Deck Folder…</string>
+    <string name="button_new_deck">New Deck…</string>
+    <string name="open_in_editor">Open in Editor</string>
+    <string name="close">Close</string>
+    <string name="recent_decks">Recent</string>
+
+    <!-- Trust -->
+    <string name="trust_title">Do you trust “%1$s”?</string>
+    <string name="trust_body_folder">A deck is a program. Opening it runs its code with your permissions, so it can read your files and use the network. Open only decks you trust. You will not be asked again for this folder.</string>
+    <string name="trust_body_file">A deck is a program. Opening it runs its code with your permissions, so it can read your files and use the network. Open only decks you trust. You will not be asked again for this file.</string>
+    <string name="trust_body_theme">A theme is a program, like a deck. Loading it runs its code with your permissions, so it can read your files and use the network. Load only themes you trust. You will not be asked again for this file.</string>
+    <string name="trust_libraries">The jars in libs/ run as programs too. Unlike .kt files, a jar can’t be checked by opening it in an editor.</string>
+    <string name="trust_and_open">Trust and Open</string>
+    <string name="trust_and_load">Trust and Load</string>
+    <string name="cancel">Cancel</string>
+
+    <!-- Safe mode -->
+    <string name="safe_mode_open">Open in Safe Mode</string>
+    <string name="safe_mode_explain">In safe mode the slides’ code runs in a sandbox: it can draw the slides but cannot read your files (only the system, the app, installed fonts and a copy of the deck), reach the network, or start other apps. Slides with heavy motion may stutter.</string>
+    <string name="safe_mode_window_title">%1$s — Safe Mode</string>
+    <string name="safe_mode_loading">Opening “%1$s” in safe mode… (the first build may take a while)</string>
+    <string name="safe_mode_failed_title">Could not open in safe mode</string>
+    <string name="safe_mode_stopped">The process drawing the slides in safe mode stopped. Close the deck and open it again.</string>
+    <string name="safe_mode_hard_link">Can’t open in safe mode: “%1$s” has another hard link.</string>
+    <string name="safe_mode_too_large">Can’t open in safe mode: the deck’s folder is too large (up to %1$s files and folders, %2$d GB).</string>
+    <string name="safe_mode_outside">Can’t open in safe mode: “%1$s” is not in the deck’s folder.</string>
+    <string name="safe_mode_open_with_files">Choose Files and Open in Safe Mode…</string>
+    <string name="safe_mode_files_explain">In safe mode, a deck of one file reads that file alone. If it uses images or other files, choose them too, from the deck’s folder.</string>
+
+    <!-- Compiling -->
+    <string name="compiling">Compiling…</string>
+    <plurals name="error_count">
+        <item quantity="one">%1$d error</item>
+        <item quantity="other">%1$d errors</item>
+    </plurals>
+    <string name="compile_error_title">Compile error — showing the last version that worked</string>
+    <string name="compile_error_title_first">Compile error — fix it</string>
+    <string name="hide">Hide</string>
+    <string name="reloaded">Reloaded in %1$d ms</string>
+
+    <!-- About -->
+    <string name="about_title">About SlideCompose</string>
+    <string name="about_version">Version %1$s</string>
+    <string name="about_description">An app for slides written in Kotlin and Jetpack Compose</string>
+    <string name="about_license">Licensed under the Apache License 2.0</string>
+    <string name="about_third_party">Third-Party Software</string>
+    <string name="about_third_party_note">SlideCompose includes the following software. Click one to show its license and notices.</string>
+</resources>

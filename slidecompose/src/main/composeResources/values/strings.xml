@@ -1,0 +1,60 @@
+<resources>
+    <!-- Menus -->
+    <string name="menu_file">File</string>
+    <string name="menu_export_pdf">Export PDF…</string>
+    <string name="menu_export_pdf_builds">Export PDF with Build Steps…</string>
+    <string name="menu_play">Play</string>
+    <string name="menu_play_slideshow">Play Slideshow</string>
+    <string name="menu_stop">Stop (Esc)</string>
+    <string name="menu_presenter_window">Presenter Window (P)</string>
+    <string name="menu_toggle_fullscreen">Toggle Fullscreen (F)</string>
+    <string name="menu_swap_displays">Swap Displays (S)</string>
+    <string name="menu_black_screen">Black Screen (B)</string>
+    <string name="menu_share_pointer">Share Pointer (L)</string>
+    <string name="menu_hide_still_pointer">Hide Pointer When Idle</string>
+    <string name="menu_pause_timer">Pause Timer (T)</string>
+    <string name="menu_resume_timer">Resume Timer (T)</string>
+    <string name="menu_reset_timer">Reset Timer (R)</string>
+    <string name="menu_view">View</string>
+    <string name="menu_appearance">Appearance</string>
+    <string name="appearance_system">System</string>
+    <string name="appearance_light">Light</string>
+    <string name="appearance_dark">Dark</string>
+    <string name="menu_go">Go</string>
+    <string name="menu_next">Next (→)</string>
+    <string name="menu_previous">Previous (←)</string>
+    <string name="menu_first_slide">First Slide (Home)</string>
+    <string name="menu_last_slide">Last Slide (End)</string>
+
+    <!-- Windows -->
+    <string name="presenter_window_title">%1$s — Presenter</string>
+    <string name="go_to_slide">Go to slide %1$s</string>
+    <string name="export_pdf_dialog">Export PDF</string>
+    <string name="exporting_pdf">Exporting PDF… %1$d / %2$d</string>
+    <string name="exported">Exported %1$s</string>
+    <string name="exported_with_image_pages">Exported %1$s; pages made of one image, as something on them could not stay vectors: %2$s</string>
+    <string name="export_failed">Export failed: %1$s</string>
+    <string name="no_slides">No slides</string>
+
+    <!-- Presenter -->
+    <string name="label_current">CURRENT</string>
+    <string name="label_next">NEXT</string>
+    <string name="end_of_presentation">End of presentation</string>
+    <string name="no_notes">No notes</string>
+    <string name="caption_now">NOW</string>
+    <string name="caption_left">LEFT</string>
+    <string name="caption_total">TOTAL</string>
+    <string name="tooltip_swap">Swap the slides and this window between displays (S)</string>
+    <string name="tooltip_smaller_notes">Smaller notes (−)</string>
+    <string name="tooltip_reset_notes">Reset the notes size</string>
+    <string name="tooltip_larger_notes">Larger notes (+)</string>
+    <string name="tooltip_pause_timer">Pause the timer (T)</string>
+    <string name="tooltip_resume_timer">Resume the timer (T)</string>
+    <string name="tooltip_reset_timer">Reset the timer (R)</string>
+    <string name="tooltip_pointer">Pointer on the slides: white, black or off (L)</string>
+    <string name="caption_slides">SLIDES</string>
+    <string name="tooltip_show_slide_list">Show the slides</string>
+    <string name="tooltip_hide_slide_list">Hide the slides</string>
+    <string name="black_screen">Black Screen</string>
+    <string name="black_screen_hint">Click or press any key to show the slides</string>
+</resources>

@@ -1,0 +1,13 @@
+These parts of the Kotlin compiler are licensed under the Apache License, Version 2.0, whose text
+is above: the IntelliJ Platform, Guava, fastutil, kotlinx.collections.immutable, the OpenTelemetry
+API, Aalto XML, Jansi, LZ4 Java, StreamEx, javax.inject, Vavr and Apache log4j. Their notices:
+
+This software includes code from IntelliJ IDEA
+Copyright (C) JetBrains s.r.o.
+https://www.jetbrains.com/idea/
+
+Apache log4j
+Copyright 2010 The Apache Software Foundation
+
+This product includes software developed at
+The Apache Software Foundation (http://www.apache.org/).

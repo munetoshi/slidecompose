@@ -1,0 +1,55 @@
+<resources>
+    <!-- Menus -->
+    <string name="menu_file">ファイル</string>
+    <string name="menu_export_pdf">PDF を書き出す…</string>
+    <string name="menu_export_pdf_builds">ビルドステップを含めて PDF を書き出す…</string>
+    <string name="menu_play">再生</string>
+    <string name="menu_play_slideshow">スライドショーを再生</string>
+    <string name="menu_stop">停止 (Esc)</string>
+    <string name="menu_presenter_window">プレゼンターウィンドウ (P)</string>
+    <string name="menu_toggle_fullscreen">フルスクリーンの切り替え (F)</string>
+    <string name="menu_swap_displays">ディスプレイを入れ替え (S)</string>
+    <string name="menu_black_screen">画面オフ (B)</string>
+    <string name="menu_share_pointer">ポインターを共有 (L)</string>
+    <string name="menu_hide_still_pointer">一定時間でポインターを隠す</string>
+    <string name="menu_pause_timer">タイマーを一時停止 (T)</string>
+    <string name="menu_resume_timer">タイマーを再開 (T)</string>
+    <string name="menu_reset_timer">タイマーをリセット (R)</string>
+    <string name="menu_view">表示</string>
+    <string name="menu_appearance">外観</string>
+    <string name="appearance_system">システム</string>
+    <string name="appearance_light">ライト</string>
+    <string name="appearance_dark">ダーク</string>
+    <string name="menu_go">移動</string>
+    <string name="menu_next">次へ (→)</string>
+    <string name="menu_previous">前へ (←)</string>
+    <string name="menu_first_slide">最初のスライド (Home)</string>
+    <string name="menu_last_slide">最後のスライド (End)</string>
+
+    <!-- Windows -->
+    <string name="presenter_window_title">%1$s — プレゼンター</string>
+    <string name="go_to_slide">スライド %1$s へ移動</string>
+    <string name="export_pdf_dialog">PDF を書き出す</string>
+    <string name="exporting_pdf">PDF を書き出し中… %1$d / %2$d</string>
+    <string name="exported">%1$s を書き出しました</string>
+    <string name="exported_with_image_pages">%1$s を書き出しました (ベクターにできず、ラスタ画像にしたページ: %2$s)</string>
+    <string name="export_failed">書き出せませんでした: %1$s</string>
+    <string name="no_slides">スライドがありません</string>
+
+    <!-- Presenter. CURRENT, NEXT, NOW, LEFT and TOTAL are left out, so they stay in English:
+         capitalized English labels read naturally in Japanese. Other languages may translate them. -->
+    <string name="end_of_presentation">プレゼンテーションの終わり</string>
+    <string name="no_notes">ノートなし</string>
+    <string name="tooltip_swap">スライドとこのウィンドウのディスプレイを入れ替え (S)</string>
+    <string name="tooltip_smaller_notes">ノートを小さく (−)</string>
+    <string name="tooltip_reset_notes">ノートのサイズを元に戻す</string>
+    <string name="tooltip_larger_notes">ノートを大きく (+)</string>
+    <string name="tooltip_pause_timer">タイマーを一時停止 (T)</string>
+    <string name="tooltip_resume_timer">タイマーを再開 (T)</string>
+    <string name="tooltip_reset_timer">タイマーをリセット (R)</string>
+    <string name="tooltip_pointer">スライド上のポインター: 白、黒、オフ (L)</string>
+    <string name="tooltip_show_slide_list">スライド一覧を表示</string>
+    <string name="tooltip_hide_slide_list">スライド一覧を隠す</string>
+    <string name="black_screen">画面オフ</string>
+    <string name="black_screen_hint">再開するには、クリックするか何かキーを押してください。</string>
+</resources>

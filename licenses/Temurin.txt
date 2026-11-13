@@ -1,0 +1,10 @@
+The Java runtime is made with jlink from Eclipse Temurin (https://adoptium.net/), a build of
+OpenJDK, which is licensed under the GNU General Public License, version 2, with the Classpath
+Exception. Its license, and the notices of the software it includes, are in the app at
+SlideCompose.app/Contents/runtime/Contents/Home/legal/. Its exact version, and where its complete
+source code is, are in SlideCompose.app/Contents/app/resources/JAVA_RUNTIME.txt and in the About
+window.
+
+Eclipse Temurin is a trademark of the Eclipse Foundation. Eclipse, and the Eclipse Logo are
+registered trademarks of the Eclipse Foundation. Java and all Java-based trademarks are trademarks
+of Oracle Corporation in the United States, other countries, or both.

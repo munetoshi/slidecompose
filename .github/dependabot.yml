@@ -1,0 +1,30 @@
+# Weekly pull requests that update the Gradle dependencies and the actions in the workflows.
+version: 2
+updates:
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+    # Waits a week after a release, so that a broken or malicious one has time to be found and pulled.
+    # Security updates do not wait.
+    cooldown:
+      default-days: 7
+    groups:
+      # Kotlin and Compose have to fit each other, and the viewer compiles decks with the Kotlin
+      # compiler it bundles, so they move together. Skiko comes with Compose: when its Skia changes,
+      # the build fails until `skia` in libs.versions.toml follows (checkSkiaVersion).
+      kotlin-and-compose:
+        patterns:
+          - "org.jetbrains.kotlin*"
+          - "org.jetbrains.compose*"
+    ignore:
+      # Maven's model builder, with which Licensee reads POMs, needs the XML classes that
+      # plexus-utils 4 no longer has: the build fails with it (XmlPullParserException not found).
+      - dependency-name: "org.codehaus.plexus:plexus-utils"
+        update-types: ["version-update:semver-major"]
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+    cooldown:
+      default-days: 7

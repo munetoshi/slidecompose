@@ -1,0 +1,76 @@
+<resources>
+    <!-- Menus. The deck is just "スライド" in Japanese. Creating one is 新規作成, as in Keynote's
+         ファイル > 新規: 新規スライド would read as adding a slide. -->
+    <string name="menu_file">ファイル</string>
+    <string name="menu_view">表示</string>
+    <string name="menu_new_deck">新規作成…</string>
+    <string name="menu_open_deck">スライドのファイルを開く…</string>
+    <string name="menu_open_deck_folder">スライドのフォルダを開く…</string>
+    <string name="menu_open_recent">最近使った項目を開く</string>
+    <string name="menu_clear_recent">メニューを消去</string>
+    <string name="menu_reload">読み込み直す</string>
+    <string name="menu_reveal_in_finder">Finder に表示</string>
+    <string name="menu_close_deck">スライドを閉じる</string>
+    <!-- The built-in themes keep their names, Light and Dark, as in SlideTheme.Light and .Dark. -->
+    <string name="menu_theme">テーマ</string>
+    <string name="theme_deck_default">スライドの既定</string>
+    <string name="menu_choose_theme_file">テーマファイルを選択…</string>
+
+    <!-- File dialogs -->
+    <string name="dialog_open_deck">スライドを開く (.kt)</string>
+    <string name="dialog_open_deck_folder">スライドのフォルダを開く</string>
+    <string name="dialog_new_deck">新しいスライドを作成</string>
+    <string name="dialog_safe_mode_files">スライドが使うファイルを選択</string>
+    <string name="dialog_choose_theme">テーマを選択 (.kt)</string>
+
+    <!-- Home window -->
+    <string name="home_intro">Kotlin と Jetpack Compose のスライドアプリです。`val deck = presentation { … }` を宣言した .kt ファイル (またはそれが入ったフォルダ) を開いてください。保存するたびに読み込み直します。</string>
+    <string name="compiling_deck">%1$s をコンパイル中… (初回は時間がかかることがあります)</string>
+    <string name="button_open_deck">スライドのファイルを開く…</string>
+    <string name="button_open_folder">スライドのフォルダを開く…</string>
+    <string name="button_new_deck">新規作成…</string>
+    <string name="open_in_editor">エディタで開く</string>
+    <string name="close">閉じる</string>
+    <string name="recent_decks">最近使ったスライド</string>
+
+    <!-- Trust -->
+    <string name="trust_title">「%1$s」を信頼しますか？</string>
+    <string name="trust_body_folder">SlideCompose のスライドはプログラムです。開くとそのコードがあなたの権限で動き、ファイルを読んだりネットワークを使ったりできます。信頼できるものだけを開いてください。このフォルダは次から確認しません。</string>
+    <string name="trust_body_file">SlideCompose のスライドはプログラムです。開くとそのコードがあなたの権限で動き、ファイルを読んだりネットワークを使ったりできます。信頼できるものだけを開いてください。このファイルは次から確認しません。</string>
+    <string name="trust_body_theme">テーマもスライドと同じくプログラムです。読み込むとそのコードがあなたの権限で動き、ファイルを読んだりネットワークを使ったりできます。信頼できるものだけを読み込んでください。このファイルは次から確認しません。</string>
+    <string name="trust_libraries">libs/ にある jar もプログラムとして動きます。jar は .kt ファイルと違い、エディタで開いて中身を確かめることができません。</string>
+    <string name="trust_and_open">信頼して開く</string>
+    <string name="trust_and_load">信頼して読み込む</string>
+    <string name="cancel">キャンセル</string>
+
+    <!-- Safe mode -->
+    <string name="safe_mode_open">セーフモードで開く</string>
+    <string name="safe_mode_explain">セーフモードでは、サンドボックスの中でスライドのコードが動きます。読めるのはシステムとアプリ、インストールしたフォント、スライドのコピーだけで、あなたのファイルやネットワーク、他のアプリにはアクセスできません。動きの重いスライドはフレーム落ちすることがあります。</string>
+    <string name="safe_mode_window_title">%1$s — セーフモード</string>
+    <string name="safe_mode_loading">「%1$s」をセーフモードで開いています… (初回は時間がかかることがあります)</string>
+    <string name="safe_mode_failed_title">セーフモードで開けませんでした</string>
+    <string name="safe_mode_stopped">セーフモードで描画するプロセスが止まりました。閉じてから開き直してください。</string>
+    <string name="safe_mode_hard_link">「%1$s」にハードリンクがあるため、セーフモードでは開けません。</string>
+    <string name="safe_mode_too_large">スライドのフォルダが大きすぎるため、セーフモードでは開けません (ファイルとフォルダ %1$s 個、%2$d GB まで)。</string>
+    <string name="safe_mode_outside">「%1$s」はスライドのフォルダの外にあるため、セーフモードで開けません。</string>
+    <string name="safe_mode_open_with_files">複数ファイルを選択してセーフモードで開く…</string>
+    <string name="safe_mode_files_explain">1 ファイルのスライドをセーフモードで開くと、そのファイルだけを読み込みます。画像などを使うスライドなら、スライドと同じフォルダの中から、そのファイルも選んで開けます。</string>
+
+    <!-- Compiling -->
+    <string name="compiling">コンパイル中…</string>
+    <plurals name="error_count">
+        <item quantity="other">エラー %1$d 件</item>
+    </plurals>
+    <string name="compile_error_title">コンパイルエラー — 最後に動いたバージョンを表示しています</string>
+    <string name="compile_error_title_first">コンパイルエラー — 修正してください</string>
+    <string name="hide">隠す</string>
+    <string name="reloaded">%1$d ms で読み込み直しました</string>
+
+    <!-- About. "について" as in macOS's own "（アプリ名）について". -->
+    <string name="about_title">SlideCompose について</string>
+    <string name="about_version">バージョン %1$s</string>
+    <string name="about_description">Kotlin と Jetpack Compose のスライドアプリ</string>
+    <string name="about_license">Apache License 2.0 で公開しています</string>
+    <string name="about_third_party">サードパーティのソフトウェア</string>
+    <string name="about_third_party_note">SlideCompose には次のソフトウェアが含まれています。クリックすると、ライセンスと著作権表記を表示します。</string>
+</resources>

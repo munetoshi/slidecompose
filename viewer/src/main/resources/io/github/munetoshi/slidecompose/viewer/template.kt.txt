@@ -1,0 +1,32 @@
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
+import io.github.munetoshi.slidecompose.deck.*
+import io.github.munetoshi.slidecompose.deck.components.*
+
+// SlideCompose loads the top-level `deck` property. Save this file and the slides reload.
+val deck = presentation(title = "My Talk") {
+
+    slide(notes = "Speaker notes appear in the presenter window (press P).") {
+        // titleId gives the title an element transition id: it moves to its place on the next slide.
+        TitleSlide("My Talk", "Subtitle", titleId = "title")
+    }
+
+    // The Reveals make this a slide with 3 build steps.
+    slide {
+        TitleAndContent("My Talk", titleId = "title") {
+            Bullet("First point")
+            Reveal(atStep = 1) { Bullet("Second point") }
+            Reveal(atStep = 2) { Bullet("Third point", level = 1) }
+        }
+    }
+
+    slide {
+        Box(Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Thank you!", style = MaterialTheme.typography.displayLarge)
+        }
+    }
+}
