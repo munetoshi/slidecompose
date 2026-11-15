@@ -46,6 +46,7 @@ import io.github.munetoshi.slidecompose.deck.Frame
 import io.github.munetoshi.slidecompose.deck.Presentation
 import io.github.munetoshi.slidecompose.deck.SlideSize
 import io.github.munetoshi.slidecompose.deck.code.LocalSharesCaret
+import io.github.munetoshi.slidecompose.deck.code.LocalShownDeck
 import io.github.munetoshi.slidecompose.deck.scopeFor
 import io.github.munetoshi.slidecompose.deck.theme.LocalSlideStyle
 import io.github.munetoshi.slidecompose.deck.theme.PointerColor
@@ -167,7 +168,7 @@ private fun AnimatedSlides(controller: PresentationController) {
                             ElementTransitionContext(sharedScope, visibilityScope, looks) { controller.motion.transition }
                         }
                         // Text fields on the slides show where another window types in them, as the slides show where it points.
-                        CompositionLocalProvider(LocalElementTransition provides elementTransition, LocalSharesCaret provides controller.isPointerShared) {
+                        CompositionLocalProvider(LocalElementTransition provides elementTransition, LocalSharesCaret provides controller.isPointerShared, LocalShownDeck provides presentation) {
                             SlideContent(presentation, frame)
                         }
                     }

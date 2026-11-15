@@ -130,30 +130,28 @@ class CodeEditorTest : FunSpec({
         scene.close()
     }
 
-    test("what was typed starts over once the slides moved on, not after a reload, unless it is to stay") {
-        var clock = 0L
-        val state = CodeBlockState("restart", "val x = 1") { clock }
+    test("what was typed starts over once no window shows the block, unless it is to stay") {
+        val state = CodeBlockState("restart", "val x = 1")
         state.hold()
         state.text = TextFieldValue("val x = 2")
-        // A reload shows the block again at once.
+        // A second window's copy comes while the first shows: nothing went.
+        state.comeBack(resets = true, deck = null)
+        state.hold()
         state.release()
-        clock += 10_000_000
-        state.comeBack(resets = true)
+        (state.code to state.restarts) shouldBe ("val x = 2" to 0)
+        // The last copy goes, and the block is to stay.
+        state.release()
+        state.comeBack(resets = false, deck = null)
         state.hold()
         (state.code to state.restarts) shouldBe ("val x = 2" to 0)
-        // Shown again a while after the slides moved on from it.
+        // The last copy goes again: the next copy starts over, and only once for two windows.
         state.release()
-        clock += 2_000_000_000
-        state.comeBack(resets = false)
-        state.hold()
-        (state.code to state.restarts) shouldBe ("val x = 2" to 0)
-        state.release()
-        clock += 2_000_000_000
-        state.comeBack(resets = true)
+        state.comeBack(resets = true, deck = null)
+        state.comeBack(resets = true, deck = null)
         (state.code to state.restarts) shouldBe ("val x = 1" to 1)
     }
 
-    test("a block shown again at once keeps what was typed, and starts over shown again later") {
+    test("a block shown again after it went starts over, however soon") {
         runComposeUiTest {
             var shown by mutableStateOf(true)
             setContent { if (shown) CodeBlock("val y = 1", id = "again", editable = true) }
@@ -161,12 +159,6 @@ class CodeEditorTest : FunSpec({
             state.text = TextFieldValue("val y = 2")
             shown = false
             waitForIdle()
-            shown = true
-            waitForIdle()
-            state.text.text shouldBe "val y = 2"
-            shown = false
-            waitForIdle()
-            Thread.sleep(1_100)
             shown = true
             waitForIdle()
             state.text.text shouldBe "val y = 1"

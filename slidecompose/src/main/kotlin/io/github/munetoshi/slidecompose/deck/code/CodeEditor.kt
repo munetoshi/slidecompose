@@ -82,6 +82,7 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
+import io.github.munetoshi.slidecompose.deck.Presentation
 import io.github.munetoshi.slidecompose.deck.theme.CodeColors
 import io.github.munetoshi.slidecompose.deck.theme.LocalSlideStyle
 import io.github.munetoshi.slidecompose.deck.theme.LocalSlideTheme
@@ -102,6 +103,12 @@ import kotlinx.coroutines.flow.withIndex
  */
 val LocalSharesCaret = staticCompositionLocalOf { false }
 
+/**
+ * The deck that the windows show live, as it was loaded: a reload loads another one, and a
+ * [CodeBlock] in it starts over. Whoever plays the slides provides it; pictures of slides do not.
+ */
+internal val LocalShownDeck = staticCompositionLocalOf<Presentation?> { null }
+
 /** The tag of an [CodeBlock]'s editor, for tests. */
 internal const val CodeEditorTag = "CodeEditor"
 
@@ -115,8 +122,8 @@ internal const val CodeViewportTag = "CodeViewport"
  * While the code is changed, the editor takes the keys it types, so they do not move the slides;
  * Esc, which the windows take first, leaves it. Tab puts in four spaces, and ⌘/ (Ctrl+/ off macOS)
  * comments the lines of the selection out, or in again. Every window showing the block shows the
- * same code. It stays through a reload, until [code] itself changes, and starts over from [code]
- * when the block is shown again after the slides moved on from it, unless [resetsOnLeave] is false.
+ * same code. It starts over from [code] when the block is shown again after no window showed it,
+ * as the slides moved on from it or the deck was reloaded, unless [resetsOnLeave] is false.
  *
  * Something built on the block, such as a button that runs the code, takes its state from
  * [rememberCodeBlockState] and gives it to the other [CodeBlock].
@@ -139,9 +146,9 @@ internal const val CodeViewportTag = "CodeViewport"
  *   place of [focusLines]: a build can show in focus what it changes, and only that.
  * @param editable whether the code can be changed. Until it is, the block takes no clicks or keys,
  *   which go on moving the slides.
- * @param resetsOnLeave whether what was typed goes, once the slides moved on from the block: shown
- *   again, it starts over from [code]. A reload, which shows the block again at once, keeps it
- *   either way. Folds and scrolling start over too.
+ * @param resetsOnLeave whether what was typed goes, once no window shows the block, as the slides
+ *   moved on from it or the deck was reloaded: shown again, it starts over from [code]. Folds and
+ *   scrolling start over too.
  * @param visibleLines how many lines the block shows at most, or null for all: it scrolls, by the
  *   wheel or the trackpad, and to keep the caret in view.
  * @param scrollTo the line (from 1) a build scrolls to the top of the block, with [visibleLines].
@@ -291,14 +298,15 @@ internal fun widestOf(codes: List<String>, style: TextStyle, measurer: TextMeasu
 /**
  * The state of the [CodeBlock] that starts with [code] under [id], which every window
  * showing it shares: see [CodeBlock] for the parameters. While it is composed, the block
- * counts as shown, and once no window composes it for a while, it starts over from [code] when it
- * is shown again, if [resetsOnLeave].
+ * counts as shown, and once no window composes it, it starts over from [code] when it is shown
+ * again, if [resetsOnLeave].
  */
 @Composable
 fun rememberCodeBlockState(code: String, id: Any? = null, resetsOnLeave: Boolean = true): CodeBlockState {
     val source = remember(code) { code.trimIndent().trimEnd() }
     // Before anything shows its code: coming back, it may start over.
-    val state = remember(id, source, resetsOnLeave) { CodeBlockStates.of(id, source).also { it.comeBack(resetsOnLeave) } }
+    val deck = LocalShownDeck.current
+    val state = remember(id, source, resetsOnLeave, deck) { CodeBlockStates.of(id, source).also { it.comeBack(resetsOnLeave, deck) } }
     DisposableEffect(state) {
         state.hold()
         onDispose { state.release() }
@@ -308,13 +316,12 @@ fun rememberCodeBlockState(code: String, id: Any? = null, resetsOnLeave: Boolean
 
 /**
  * The code of an [CodeBlock], as it is typed in, which the windows showing the block
- * share. [now] tells the time in nanoseconds, to tell a reload from the slides moving on.
+ * share.
  */
 @Stable
 class CodeBlockState internal constructor(
     internal val id: Any?,
     private val source: String,
-    private val now: () -> Long = System::nanoTime,
 ) {
     internal var text by mutableStateOf(TextFieldValue(source))
 
@@ -372,28 +379,35 @@ class CodeBlockState internal constructor(
     /** How many copies of the block windows show now. */
     private var holders = 0
 
-    /** When the last copy went, or null while one shows, or before any did. */
-    private var leftAt: Long? = null
+    /** Whether the last copy went, and none shows since. */
+    private var isLeft = false
+
+    /** The deck the windows showed the block in last, as it was loaded, or null before they did. */
+    private var shownIn: Presentation? = null
 
     /** Notes that a window shows a copy of the block. */
     internal fun hold() {
         holders++
-        leftAt = null
+        isLeft = false
     }
 
     /** Notes that a window no longer shows its copy. */
     internal fun release() {
         holders--
-        if (holders == 0) leftAt = now()
+        isLeft = holders == 0
     }
 
     /**
-     * Starts over from the code, if [resets] and no window showed the block for a while: the slides
-     * moved on from it. A reload shows it again at once, and keeps what was typed.
+     * Starts over from the code, if [resets] and no window shows the block since the last copy
+     * went, as the slides moved on from it, or the windows show it in [deck], a deck loaded again
+     * (null for a picture of a slide). A new copy that comes while the old one still shows, as a
+     * build with a step transition makes one, keeps what was typed.
      */
-    internal fun comeBack(resets: Boolean) {
-        val left = leftAt ?: return
-        if (resets && holders == 0 && now() - left >= LEAVE_NANOS) {
+    internal fun comeBack(resets: Boolean, deck: Presentation?) {
+        val isReloaded = deck != null && shownIn != null && deck !== shownIn
+        if (deck != null) shownIn = deck
+        if (resets && (isLeft || isReloaded)) {
+            isLeft = false
             text = TextFieldValue(source)
             clicked = null
             scrollLines = 0f
@@ -410,7 +424,7 @@ class CodeBlockState internal constructor(
 
 /**
  * The state of every [CodeBlock] in this app, by its id and code: the windows showing a
- * slide compose it each on its own, and show the same code; a reload finds them again.
+ * slide compose it each on its own, and show the same code.
  */
 internal object CodeBlockStates {
     private val states = HashMap<Pair<Any?, String>, CodeBlockState>()
@@ -418,8 +432,6 @@ internal object CodeBlockStates {
     fun of(id: Any?, source: String): CodeBlockState = states.getOrPut(id to source) { CodeBlockState(id, source) }
 }
 
-/** How long a block is to be gone before showing it again counts as coming back to it, not a reload. */
-private const val LEAVE_NANOS = 1_000_000_000L
 
 private const val TAB = "    "
 
