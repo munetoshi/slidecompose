@@ -63,7 +63,7 @@ slide {
 - While you edit, keys go to the editor; `Esc` leaves it
 - `PageUp` / `PageDown` (from presentation remotes) go on even in the editor
 - Edits show in every window that shows the slide
-- Going to another slide brings back the original code (`resetsOnLeave = false` keeps the edits)
+- Once no window shows the block, the original code comes back: going to another slide and back, or reloading the deck (`resetsOnLeave = false` keeps the edits)
 - While the pointer is shared, the caret and selection show in the other windows too
 
 ## Build steps

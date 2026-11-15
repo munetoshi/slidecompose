@@ -26,7 +26,7 @@ Packages are under `io.github.munetoshi.slidecompose`, one per feature.
 - `libs/*.jar` is loaded again only when a jar changes, so libraries keep their state across reloads
 - A loaded deck draws every frame off-screen before it replaces the one shown, so exceptions do not crash the window
 - Every transition is played off-screen once too, so the first one is not slow
-- Reloading clears what slides `remember`, and keeps the slide and build step shown
+- Reloading clears what slides `remember` and what was typed into code blocks, and keeps the slide and build step shown
 - Outside safe mode, decks run in the app's JVM without limits
 - Element transitions are built on Compose's shared element transitions
 - The `.app` is about 280MB, with the Kotlin compiler and a JDK in it
