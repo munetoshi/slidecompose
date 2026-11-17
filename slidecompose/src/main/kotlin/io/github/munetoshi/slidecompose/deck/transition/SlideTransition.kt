@@ -16,6 +16,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Immutable
+import androidx.compose.ui.geometry.Offset
 import io.github.munetoshi.slidecompose.deck.Frame
 import io.github.munetoshi.slidecompose.deck.theme.FadeStyle
 import io.github.munetoshi.slidecompose.deck.theme.SlideStyle
@@ -165,3 +166,43 @@ private fun crossFade(durationMillis: Int, sizeTransform: SizeTransform) = Conte
     initialContentExit = fadeOut(tween(durationMillis, easing = LinearEasing)),
     sizeTransform = sizeTransform,
 )
+
+/**
+ * How the parts of the old and the new slide look, a [fraction] of the way through a change of
+ * slides by [Motion]: as the slides themselves do. Shifts are in slide widths and heights.
+ */
+internal data class ChangeLook(val oldAlpha: Float, val newAlpha: Float, val oldShift: Offset, val newShift: Offset)
+
+internal fun Motion.lookAt(fraction: Float): ChangeLook =
+    when (val t = transition) {
+        ResolvedTransition.None -> ChangeLook(0f, 1f, Offset.Zero, Offset.Zero)
+        is ResolvedTransition.Fade -> ChangeLook(1f - fraction, fraction, Offset.Zero, Offset.Zero)
+        is ResolvedTransition.ElementTransition -> {
+            val millis = fraction * t.timeline.totalMillis
+            ChangeLook(1f - t.timeline.fadeOut.at(millis), t.timeline.fadeIn.at(millis), Offset.Zero, Offset.Zero)
+        }
+        is ResolvedTransition.Push -> {
+            // Where the new slide comes from, as in contentTransform.
+            val from = when (t.direction) {
+                PushDirection.Left -> Offset(1f, 0f)
+                PushDirection.Right -> Offset(-1f, 0f)
+                PushDirection.Up -> Offset(0f, 1f)
+                PushDirection.Down -> Offset(0f, -1f)
+            } * (if (forward) 1f else -1f)
+            val eased = t.easing.transform(fraction)
+            ChangeLook(1f, 1f, oldShift = -from * eased, newShift = from * (1f - eased))
+        }
+    }
+
+/** How long a change of slides by this takes. */
+internal val ResolvedTransition.totalMillis: Int
+    get() = when (this) {
+        ResolvedTransition.None -> 0
+        is ResolvedTransition.Fade -> durationMillis
+        is ResolvedTransition.Push -> durationMillis
+        is ResolvedTransition.ElementTransition -> timeline.totalMillis
+    }
+
+/** How far through this window [millis] is, from 0 to 1. */
+private fun TimeWindow.at(millis: Float): Float =
+    if (durationMillis <= 0) (if (millis >= startMillis) 1f else 0f) else ((millis - startMillis) / durationMillis).coerceIn(0f, 1f)
