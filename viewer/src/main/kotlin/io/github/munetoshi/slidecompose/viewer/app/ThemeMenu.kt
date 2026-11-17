@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.viewer.theme
+package io.github.munetoshi.slidecompose.viewer.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
@@ -12,11 +12,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.DialogWindow
 import androidx.compose.ui.window.MenuScope
 import androidx.compose.ui.window.rememberDialogState
-import io.github.munetoshi.slidecompose.viewer.app.Viewer
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
 import io.github.munetoshi.slidecompose.viewer.home.HomeColors
 import io.github.munetoshi.slidecompose.viewer.home.homeColorScheme
 import io.github.munetoshi.slidecompose.viewer.home.TrustPrompt
+import io.github.munetoshi.slidecompose.viewer.theme.BuiltInTheme
+import io.github.munetoshi.slidecompose.viewer.theme.ThemeChoice
 import java.io.File
 import org.jetbrains.compose.resources.stringResource
 

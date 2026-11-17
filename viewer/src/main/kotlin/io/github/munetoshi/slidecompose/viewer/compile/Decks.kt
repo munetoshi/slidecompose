@@ -1,7 +1,5 @@
 package io.github.munetoshi.slidecompose.viewer.compile
 
-import io.github.munetoshi.slidecompose.viewer.theme.THEMES_DIRECTORY
-import io.github.munetoshi.slidecompose.viewer.theme.themeFiles
 import java.io.File
 
 internal fun assetDirectoryOf(deck: File): File = if (deck.isDirectory) deck else deck.absoluteFile.parentFile
@@ -34,9 +32,12 @@ private const val LIBRARIES_DIRECTORY = "libs"
 private fun jarsIn(directory: File): List<File> =
     directory.listFiles { file -> file.extension == "jar" }?.sortedBy { it.name }.orEmpty()
 
+/** The folder next to a deck that holds its theme files. */
+const val THEMES_DIRECTORY = "themes"
+
 /**
  * The Kotlin files that make up the deck at [path]: the file itself, or all files in a directory
- * except its [themes][themeFiles], which are compiled on their own.
+ * except its [themes][THEMES_DIRECTORY], which are compiled on their own.
  */
 fun deckSources(path: File): List<File> = when {
     path.isFile -> listOf(path)

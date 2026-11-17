@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.viewer.safemode
+package io.github.munetoshi.slidecompose.viewer.app
 
 import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.runtime.Composable
@@ -9,10 +9,7 @@ import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyShortcut
 import androidx.compose.ui.window.ApplicationScope
 import io.github.munetoshi.slidecompose.player.window.PresentationWindows
-import io.github.munetoshi.slidecompose.viewer.app.ErrorPanel
-import io.github.munetoshi.slidecompose.viewer.app.Viewer
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
-import io.github.munetoshi.slidecompose.viewer.home.WelcomeWindow
 import io.github.munetoshi.slidecompose.viewer.home.rememberOpensInEditor
 import io.github.munetoshi.slidecompose.viewer.safemode.DeckCopy
 import io.github.munetoshi.slidecompose.viewer.safemode.SafeModeRenderer
