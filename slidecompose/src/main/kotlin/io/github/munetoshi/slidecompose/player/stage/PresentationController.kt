@@ -12,10 +12,10 @@ import io.github.munetoshi.slidecompose.deck.Presentation
 import io.github.munetoshi.slidecompose.deck.Slide
 import io.github.munetoshi.slidecompose.deck.theme.PointerColor
 import io.github.munetoshi.slidecompose.deck.theme.SlideStyle
+import io.github.munetoshi.slidecompose.deck.theme.resolve
 import io.github.munetoshi.slidecompose.deck.transition.Motion
 import io.github.munetoshi.slidecompose.deck.transition.ResolvedTransition
 import io.github.munetoshi.slidecompose.deck.transition.SlideTransition
-import io.github.munetoshi.slidecompose.deck.transition.resolve
 
 /** The navigation state of a presentation, shared by the audience and presenter windows. */
 @Stable

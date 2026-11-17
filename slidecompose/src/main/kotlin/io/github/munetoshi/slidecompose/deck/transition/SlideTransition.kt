@@ -69,37 +69,6 @@ internal sealed interface ResolvedTransition {
     ) : ResolvedTransition
 }
 
-internal fun SlideTransition.resolve(style: SlideStyle): ResolvedTransition = when (this) {
-    SlideTransition.None -> ResolvedTransition.None
-    is SlideTransition.Fade -> ResolvedTransition.Fade(durationMillis ?: style.fade.durationMillis)
-    is SlideTransition.Push -> ResolvedTransition.Push(
-        direction,
-        durationMillis ?: style.push.durationMillis,
-        easing ?: style.push.easing,
-    )
-    is SlideTransition.ElementTransition -> {
-        val timing = timing ?: style.elementTransition.timing
-        val easing = easing ?: style.elementTransition.easing
-        ResolvedTransition.ElementTransition(
-            timing.timeline(),
-            easing,
-            unmatched = when (timing) {
-                // With nothing to move: a quick cross-fade,
-                is MoveTiming.Together -> ResolvedTransition.Fade(style.fade.durationMillis)
-                // or, one after another, a fade-out followed by a fade-in.
-                is MoveTiming.Staged -> {
-                    val fade = timing.timeline().fadeOut.durationMillis
-                    ResolvedTransition.ElementTransition(
-                        MoveTimeline(TimeWindow(0, fade), TimeWindow(0, 0), TimeWindow(fade, fade * 2)),
-                        easing,
-                        ResolvedTransition.None,
-                    )
-                }
-            },
-        )
-    }
-}
-
 /**
  * The transition in effect for the frame change currently on screen. An element transition
  * between frames without matching elements is a plain cross-fade instead.
