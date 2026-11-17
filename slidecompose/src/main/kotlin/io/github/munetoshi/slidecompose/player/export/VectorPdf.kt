@@ -13,6 +13,8 @@ import androidx.compose.ui.unit.Density
 import io.github.munetoshi.slidecompose.deck.Frame
 import io.github.munetoshi.slidecompose.deck.Presentation
 import io.github.munetoshi.slidecompose.deck.transition.ElementIdRecorder
+import io.github.munetoshi.slidecompose.player.stage.StillFrame
+import io.github.munetoshi.slidecompose.player.stage.settle
 import java.io.BufferedOutputStream
 import java.io.DataOutputStream
 import java.io.File

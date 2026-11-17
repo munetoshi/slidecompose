@@ -12,7 +12,6 @@ import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.input.pointer.pointerInput
 import io.github.munetoshi.slidecompose.deck.Frame
 import io.github.munetoshi.slidecompose.deck.Presentation
-import io.github.munetoshi.slidecompose.player.export.renderFrame
 import io.github.munetoshi.slidecompose.player.presenter.PresenterView
 import io.github.munetoshi.slidecompose.player.window.PresentationWindows
 import java.io.File
@@ -92,4 +91,4 @@ private object InProcessRenderer : SlideRenderer {
 
 /** [frame] drawn [width] pixels wide, or null when it does not draw. */
 private fun Presentation.thumbnailOf(frame: Frame, width: Int, assetDirectory: File?): ImageBitmap? =
-    runCatching { renderFrame(frame, scale = width.toFloat() / size.width, assetDirectory) }.getOrNull()?.use(Image::toComposeImageBitmap)
+    runCatching { renderStillFrame(frame, scale = width.toFloat() / size.width, assetDirectory) }.getOrNull()?.use(Image::toComposeImageBitmap)
