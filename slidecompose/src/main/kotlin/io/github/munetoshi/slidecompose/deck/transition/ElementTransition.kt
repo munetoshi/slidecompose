@@ -39,7 +39,6 @@ import androidx.compose.ui.text.font.FontWeight
 import io.github.munetoshi.slidecompose.deck.code.CodeLook
 import io.github.munetoshi.slidecompose.deck.code.CodeMorph
 import io.github.munetoshi.slidecompose.deck.components.SlideText
-import io.github.munetoshi.slidecompose.deck.theme.with
 
 /** How a [elementTransition] element changes size during an element transition. */
 enum class ElementTransitionMode {
