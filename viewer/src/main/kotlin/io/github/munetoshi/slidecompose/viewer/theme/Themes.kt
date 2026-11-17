@@ -4,13 +4,11 @@ import io.github.munetoshi.slidecompose.deck.theme.SlideTheme
 import io.github.munetoshi.slidecompose.viewer.compile.DeckCompiler
 import io.github.munetoshi.slidecompose.viewer.compile.Diagnostic
 import io.github.munetoshi.slidecompose.viewer.compile.NamedTheme
+import io.github.munetoshi.slidecompose.viewer.compile.THEMES_DIRECTORY
 import io.github.munetoshi.slidecompose.viewer.compile.ThemeResult
 import io.github.munetoshi.slidecompose.viewer.home.keyOf
 import java.io.File
 import java.util.prefs.Preferences
-
-/** The folder next to a deck that holds its theme files. */
-const val THEMES_DIRECTORY = "themes"
 
 /** The themes that come with SlideCompose. */
 enum class BuiltInTheme(val theme: SlideTheme) {
