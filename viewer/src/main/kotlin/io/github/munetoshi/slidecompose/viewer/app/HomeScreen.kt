@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.viewer.home
+package io.github.munetoshi.slidecompose.viewer.app
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -6,31 +6,22 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
-import androidx.compose.material3.darkColorScheme
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.key.Key
 import androidx.compose.ui.input.key.KeyShortcut
-import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.DpSize
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -39,14 +30,15 @@ import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.rememberWindowState
 import io.github.munetoshi.slidecompose.deck.Frame
-import io.github.munetoshi.slidecompose.player.presenter.PresenterColors
 import io.github.munetoshi.slidecompose.player.window.AppearanceMenu
-import io.github.munetoshi.slidecompose.viewer.app.Viewer
-import io.github.munetoshi.slidecompose.viewer.app.editorFileOf
 import io.github.munetoshi.slidecompose.viewer.compile.deckLibraries
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
+import io.github.munetoshi.slidecompose.viewer.home.HomeColors
+import io.github.munetoshi.slidecompose.viewer.home.RecentDecks
+import io.github.munetoshi.slidecompose.viewer.home.TrustPrompt
+import io.github.munetoshi.slidecompose.viewer.home.homeColorScheme
+import io.github.munetoshi.slidecompose.viewer.home.openInEditorLabel
 import io.github.munetoshi.slidecompose.viewer.safemode.SafeModeLauncher
-import java.io.File
 import org.jetbrains.compose.resources.stringResource
 
 @Composable
@@ -149,97 +141,6 @@ internal fun HomeScreen(viewer: Viewer, window: java.awt.Frame?, titles: DialogT
     }
 }
 
-/**
- * Asks whether the user trusts a deck or theme [file] before any of its code runs: see [DeckTrust].
- * Opening it in the editor first shows what it would run.
- */
-@Composable
-internal fun TrustPrompt(
-    file: File,
-    title: String,
-    body: String,
-    trustLabel: String,
-    colors: HomeColors,
-    onTrust: () -> Unit,
-    onOpenInEditor: () -> Unit,
-    onCancel: () -> Unit,
-    onSafeMode: (() -> Unit)? = null,
-    /** For a deck of one file: opens it in safe mode with files the user chooses, such as its images. */
-    onSafeModeWithFiles: (() -> Unit)? = null,
-    /** Whether the deck is a folder with jars in `libs`, which the editor cannot show. */
-    hasLibraries: Boolean = false,
-) {
-    Column(
-        Modifier.fillMaxWidth().clip(RoundedCornerShape(10.dp)).background(colors.panel).padding(20.dp),
-        verticalArrangement = Arrangement.spacedBy(10.dp),
-    ) {
-        Text(title, color = colors.text, fontSize = 18.sp, fontWeight = FontWeight.SemiBold)
-        Text(
-            body,
-            color = colors.secondary,
-            fontSize = 14.sp,
-            lineHeight = 20.sp,
-        )
-        if (hasLibraries) {
-            Text(
-                stringResource(Res.string.trust_libraries),
-                color = colors.secondary,
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-            )
-        }
-        Text(
-            file.path,
-            color = colors.secondary,
-            fontSize = 13.sp,
-            fontFamily = FontFamily.Monospace,
-            maxLines = 1,
-            overflow = TextOverflow.MiddleEllipsis,
-        )
-        // Safe mode is the way to open a deck without trusting its author.
-        if (onSafeMode != null) {
-            Text(
-                stringResource(Res.string.safe_mode_explain),
-                color = colors.secondary,
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-            )
-        }
-        if (onSafeModeWithFiles != null) {
-            Text(
-                stringResource(Res.string.safe_mode_files_explain),
-                color = colors.secondary,
-                fontSize = 14.sp,
-                lineHeight = 20.sp,
-            )
-        }
-        Spacer(Modifier.height(4.dp))
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            Button(onClick = onTrust) { Text(trustLabel) }
-            if (onSafeMode != null) {
-                OutlinedButton(onClick = onSafeMode) { Text(stringResource(Res.string.safe_mode_open)) }
-            }
-            if (onSafeModeWithFiles != null) {
-                OutlinedButton(onClick = onSafeModeWithFiles) { Text(stringResource(Res.string.safe_mode_open_with_files)) }
-            }
-            OutlinedButton(onClick = onOpenInEditor) { Text(openInEditorLabel(file)) }
-            TextButton(onClick = onCancel) { Text(stringResource(Res.string.cancel)) }
-        }
-    }
-}
-
-/**
- * What opening [file] in the editor does: open it, or show it in Finder when it is no `.kt` file
- * (see [editorFileOf]).
- */
-@Composable
-internal fun openInEditorLabel(file: File): String =
-    stringResource(if (rememberOpensInEditor(file)) Res.string.open_in_editor else Res.string.menu_reveal_in_finder)
-
-/** Whether [Viewer.openInEditor] opens [file] in the editor rather than showing it in Finder. */
-@Composable
-internal fun rememberOpensInEditor(file: File): Boolean = remember(file) { editorFileOf(file) != null }
-
 /** The titles of the file dialogs. The dialogs open from click handlers, outside composition, where resources are not at hand. */
 internal class DialogTitles(val openDeck: String, val openFolder: String, val newDeck: String, val safeModeFiles: String)
 
@@ -250,17 +151,3 @@ internal fun dialogTitles() = DialogTitles(
     newDeck = stringResource(Res.string.dialog_new_deck),
     safeModeFiles = stringResource(Res.string.dialog_safe_mode_files),
 )
-
-/** The colors of the home and About windows. */
-internal class HomeColors(val background: Color, val panel: Color, val text: Color, val secondary: Color, val link: Color) {
-    companion object {
-        val Dark = HomeColors(Color(0xFF16161A), Color(0xFF232329), Color.White, Color(0xFFB0B0B8), PresenterColors.LogoGreen)
-        val Light = HomeColors(Color(0xFFF5F5F7), Color.White, Color(0xFF1D1D1F), Color(0xFF6E6E73), PresenterColors.LogoGreenDark)
-    }
-}
-
-/** Material's colors for the home window's buttons and progress, in the green of the logo rather than Material's purple. */
-internal fun homeColorScheme(dark: Boolean): ColorScheme {
-    val scheme = if (dark) darkColorScheme() else lightColorScheme()
-    return scheme.copy(primary = PresenterColors.LogoGreenDark, onPrimary = Color.White)
-}

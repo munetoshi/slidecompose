@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.viewer.home
+package io.github.munetoshi.slidecompose.viewer.app
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.size
@@ -17,7 +17,6 @@ import androidx.compose.ui.text.TextLayoutResult
 import androidx.compose.ui.unit.dp
 import io.github.munetoshi.slidecompose.viewer.MemoryPreferences
 import io.github.munetoshi.slidecompose.viewer.TWO_SLIDES
-import io.github.munetoshi.slidecompose.viewer.app.Viewer
 import io.github.munetoshi.slidecompose.viewer.write
 import io.kotest.core.spec.style.FunSpec
 import io.kotest.engine.spec.tempdir

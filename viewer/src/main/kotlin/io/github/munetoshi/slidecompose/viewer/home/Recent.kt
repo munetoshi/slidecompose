@@ -14,25 +14,12 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.MenuScope
-import io.github.munetoshi.slidecompose.viewer.app.Viewer
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
 import java.io.File
 import org.jetbrains.compose.resources.stringResource
 
 /** How many recent decks the home window lists. */
 internal const val HomeRecentCount = 3
-
-/** The File menu's Open Recent, with the recent decks by name and an item that clears them. */
-@Composable
-internal fun MenuScope.RecentMenu(viewer: Viewer) {
-    val decks = viewer.recentDecks
-    Menu(stringResource(Res.string.menu_open_recent), enabled = decks.isNotEmpty()) {
-        decks.forEach { deck -> Item(deck.name) { viewer.open(deck) } }
-        Separator()
-        Item(stringResource(Res.string.menu_clear_recent), onClick = viewer::clearRecentDecks)
-    }
-}
 
 /** The latest of the recent decks, each its name and then its folder, opened by a click. */
 @Composable

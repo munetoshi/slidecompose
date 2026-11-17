@@ -1,7 +1,11 @@
 package io.github.munetoshi.slidecompose.viewer.app
 
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.window.MenuScope
+import io.github.munetoshi.slidecompose.viewer.generated.resources.*
 import java.io.File
 import java.util.prefs.Preferences
+import org.jetbrains.compose.resources.stringResource
 
 /** How many recent decks are kept, and listed in the File menu. */
 private const val KeptDeckCount = 10
@@ -33,5 +37,16 @@ internal class RecentDecks(private val preferences: Preferences) {
     /** Forgets them all. */
     fun clear() {
         preferences.put(RecentKey, "")
+    }
+}
+
+/** The File menu's Open Recent, with the recent decks by name and an item that clears them. */
+@Composable
+internal fun MenuScope.RecentMenu(viewer: Viewer) {
+    val decks = viewer.recentDecks
+    Menu(stringResource(Res.string.menu_open_recent), enabled = decks.isNotEmpty()) {
+        decks.forEach { deck -> Item(deck.name) { viewer.open(deck) } }
+        Separator()
+        Item(stringResource(Res.string.menu_clear_recent), onClick = viewer::clearRecentDecks)
     }
 }

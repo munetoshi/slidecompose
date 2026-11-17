@@ -10,7 +10,6 @@ import androidx.compose.ui.input.key.KeyShortcut
 import androidx.compose.ui.window.ApplicationScope
 import io.github.munetoshi.slidecompose.player.window.PresentationWindows
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
-import io.github.munetoshi.slidecompose.viewer.home.WelcomeWindow
 import io.github.munetoshi.slidecompose.viewer.home.rememberOpensInEditor
 import io.github.munetoshi.slidecompose.viewer.safemode.DeckCopy
 import io.github.munetoshi.slidecompose.viewer.safemode.SafeModeRenderer

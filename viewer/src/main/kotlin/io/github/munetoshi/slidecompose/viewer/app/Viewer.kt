@@ -21,7 +21,7 @@ import io.github.munetoshi.slidecompose.viewer.compile.deckSources
 import io.github.munetoshi.slidecompose.viewer.compile.unusedLibrariesNote
 import io.github.munetoshi.slidecompose.viewer.generated.resources.*
 import io.github.munetoshi.slidecompose.viewer.home.DeckTrust
-import io.github.munetoshi.slidecompose.viewer.home.DialogTitles
+import io.github.munetoshi.slidecompose.viewer.home.editorFileOf
 import io.github.munetoshi.slidecompose.viewer.safemode.SafeModeSession
 import io.github.munetoshi.slidecompose.viewer.theme.ThemeChoice
 import io.github.munetoshi.slidecompose.viewer.theme.ThemeChoices
@@ -406,18 +406,6 @@ internal class Viewer(
         val target = file ?: return
         runCatching { Desktop.getDesktop().browseFileDirectory(target) }
     }
-}
-
-/**
- * The `.kt` file to open in an editor for [file], a deck or theme: the file itself, or a folder
- * deck's first source, with links followed. `null` to show [file] in Finder instead. Opening asks
- * macOS for the app that opens such a file, and a deck dropped on the Dock or opened with "Open
- * With" may be any file: a `.command` file would run in Terminal, and a `.app` or `.jar` would
- * start. A link named `x.kt` may lead to any of them, so what counts is the file it leads to.
- */
-internal fun editorFileOf(file: File): File? {
-    val source = if (file.isDirectory) deckSources(file).firstOrNull() ?: return null else file
-    return source.canonicalFile.takeIf { it.isFile && it.extension == "kt" }
 }
 
 /** The thread that compiles decks and themes, one at a time. */
