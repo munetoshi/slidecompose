@@ -41,9 +41,6 @@ import io.github.munetoshi.slidecompose.viewer.home.RecentMenu
 import io.github.munetoshi.slidecompose.viewer.home.WelcomeWindow
 import io.github.munetoshi.slidecompose.viewer.home.dialogTitles
 import io.github.munetoshi.slidecompose.viewer.home.rememberOpensInEditor
-import io.github.munetoshi.slidecompose.viewer.safemode.SafeModeWindows
-import io.github.munetoshi.slidecompose.viewer.theme.ThemeMenu
-import io.github.munetoshi.slidecompose.viewer.theme.ThemeTrustDialog
 import java.io.File
 import org.jetbrains.compose.resources.pluralStringResource
 import org.jetbrains.compose.resources.stringResource
