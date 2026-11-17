@@ -36,7 +36,6 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import io.github.munetoshi.slidecompose.deck.code.CodeLook
 import io.github.munetoshi.slidecompose.deck.code.CodeMorph
 import io.github.munetoshi.slidecompose.deck.components.SlideText
 
@@ -99,8 +98,8 @@ internal class ElementLooks {
         /** How it looks, when it is text that says so ([SlideText]). */
         var text: TextLook? = null
 
-        /** What it shows, when it is a code block: see [CodeMorph]. */
-        var code: CodeLook? = null
+        /** What it shows, when it is a code block: only code blocks set and read it (see [CodeMorph]). */
+        var code: Any? = null
     }
 
     private val entries = mutableListOf<Entry>()
@@ -221,7 +220,7 @@ internal fun Modifier.elementTransition(
     crossfade: Boolean,
     zIndex: Float,
     text: TextLook?,
-    code: CodeLook? = null,
+    code: Any? = null,
     continues: List<Any> = emptyList(),
 ): Modifier = composed {
     LocalElementIdRecorder.current?.ids?.add(id)
