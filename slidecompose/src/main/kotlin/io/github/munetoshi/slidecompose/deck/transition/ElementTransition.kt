@@ -19,6 +19,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -35,10 +36,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
-import io.github.munetoshi.slidecompose.deck.code.CodeLook
 import io.github.munetoshi.slidecompose.deck.code.CodeMorph
 import io.github.munetoshi.slidecompose.deck.components.SlideText
-import io.github.munetoshi.slidecompose.deck.theme.with
 
 /** How a [elementTransition] element changes size during an element transition. */
 enum class ElementTransitionMode {
@@ -83,6 +82,13 @@ private class MatchingWhileElementTransition(private val context: ElementTransit
 /** Non-null only while rendering a slide inside an animated stage. */
 internal val LocalElementTransition = compositionLocalOf<ElementTransitionContext?> { null }
 
+/** Collects the [elementTransition] ids in a frame while it is composed off-screen. */
+internal class ElementIdRecorder {
+    val ids = mutableSetOf<Any>()
+}
+
+internal val LocalElementIdRecorder = staticCompositionLocalOf<ElementIdRecorder?> { null }
+
 /** How the elements with element transition ids look in the frames on screen. */
 internal class ElementLooks {
     class Entry(val id: Any, val scope: AnimatedVisibilityScope) {
@@ -92,8 +98,8 @@ internal class ElementLooks {
         /** How it looks, when it is text that says so ([SlideText]). */
         var text: TextLook? = null
 
-        /** What it shows, when it is a code block: see [CodeMorph]. */
-        var code: CodeLook? = null
+        /** What it shows, when it is a code block: only code blocks set and read it (see [CodeMorph]). */
+        var code: Any? = null
     }
 
     private val entries = mutableListOf<Entry>()
@@ -214,7 +220,7 @@ internal fun Modifier.elementTransition(
     crossfade: Boolean,
     zIndex: Float,
     text: TextLook?,
-    code: CodeLook? = null,
+    code: Any? = null,
     continues: List<Any> = emptyList(),
 ): Modifier = composed {
     LocalElementIdRecorder.current?.ids?.add(id)

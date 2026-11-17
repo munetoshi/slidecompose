@@ -622,7 +622,7 @@ internal fun rememberCodeTransition(id: Any?, from: List<Any>, style: TextStyle)
 private fun codeMorph(ids: List<Any>, look: CodeLook): CodeMorph? {
     val context = LocalElementTransition.current ?: return null
     // What the blocks looked like in the frame this one comes from, when it came in.
-    val sources = remember(context, ids) { ids.mapNotNull { context.looks.elsewhere(it, context.visibilityScope)?.code } }
+    val sources = remember(context, ids) { ids.mapNotNull { context.looks.elsewhere(it, context.visibilityScope)?.code as CodeLook? } }
     val move = context.elementTransition
     val visibility = context.visibilityScope.transition
     val fraction = visibility.animateFloat(

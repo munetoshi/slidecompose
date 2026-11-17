@@ -43,7 +43,9 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.Density
 import io.github.munetoshi.slidecompose.deck.Frame
+import io.github.munetoshi.slidecompose.deck.LocalSlideChange
 import io.github.munetoshi.slidecompose.deck.Presentation
+import io.github.munetoshi.slidecompose.deck.SlideChange
 import io.github.munetoshi.slidecompose.deck.SlideSize
 import io.github.munetoshi.slidecompose.deck.code.LocalSharesCaret
 import io.github.munetoshi.slidecompose.deck.code.LocalShownDeck
@@ -55,9 +57,7 @@ import io.github.munetoshi.slidecompose.deck.theme.with
 import io.github.munetoshi.slidecompose.deck.transition.ElementLooks
 import io.github.munetoshi.slidecompose.deck.transition.ElementTransitionContext
 import io.github.munetoshi.slidecompose.deck.transition.LocalElementTransition
-import io.github.munetoshi.slidecompose.deck.transition.LocalSlideChange
 import io.github.munetoshi.slidecompose.deck.transition.Motion
-import io.github.munetoshi.slidecompose.deck.transition.SlideChange
 import io.github.munetoshi.slidecompose.deck.transition.contentTransform
 import io.github.munetoshi.slidecompose.generated.resources.Res
 import io.github.munetoshi.slidecompose.generated.resources.no_slides

@@ -12,9 +12,13 @@ import io.github.munetoshi.slidecompose.deck.PresentationBuilder
 import io.github.munetoshi.slidecompose.deck.SlideDsl
 import io.github.munetoshi.slidecompose.deck.code.CodeBlock
 import io.github.munetoshi.slidecompose.deck.components.Reveal
+import io.github.munetoshi.slidecompose.deck.transition.MoveTimeline
 import io.github.munetoshi.slidecompose.deck.transition.MoveTiming
+import io.github.munetoshi.slidecompose.deck.transition.ResolvedTransition
 import io.github.munetoshi.slidecompose.deck.transition.SlideTransition
+import io.github.munetoshi.slidecompose.deck.transition.TimeWindow
 import io.github.munetoshi.slidecompose.deck.transition.elementTransition
+import io.github.munetoshi.slidecompose.deck.transition.timeline
 
 /**
  * Default settings for animations and the shared pointer, like a stylesheet. They cascade: set them for the whole deck with
@@ -130,6 +134,37 @@ class SlideStyleBuilder internal constructor(base: SlideStyle) {
 
 internal fun SlideStyle.with(block: (SlideStyleBuilder.() -> Unit)?): SlideStyle =
     if (block == null) this else SlideStyleBuilder(this).apply(block).style
+
+internal fun SlideTransition.resolve(style: SlideStyle): ResolvedTransition = when (this) {
+    SlideTransition.None -> ResolvedTransition.None
+    is SlideTransition.Fade -> ResolvedTransition.Fade(durationMillis ?: style.fade.durationMillis)
+    is SlideTransition.Push -> ResolvedTransition.Push(
+        direction,
+        durationMillis ?: style.push.durationMillis,
+        easing ?: style.push.easing,
+    )
+    is SlideTransition.ElementTransition -> {
+        val timing = timing ?: style.elementTransition.timing
+        val easing = easing ?: style.elementTransition.easing
+        ResolvedTransition.ElementTransition(
+            timing.timeline(),
+            easing,
+            unmatched = when (timing) {
+                // With nothing to move: a quick cross-fade,
+                is MoveTiming.Together -> ResolvedTransition.Fade(style.fade.durationMillis)
+                // or, one after another, a fade-out followed by a fade-in.
+                is MoveTiming.Staged -> {
+                    val fade = timing.timeline().fadeOut.durationMillis
+                    ResolvedTransition.ElementTransition(
+                        MoveTimeline(TimeWindow(0, fade), TimeWindow(0, 0), TimeWindow(fade, fade * 2)),
+                        easing,
+                        ResolvedTransition.None,
+                    )
+                }
+            },
+        )
+    }
+}
 
 /** The style of the slide being rendered. */
 val LocalSlideStyle = staticCompositionLocalOf { SlideStyle() }

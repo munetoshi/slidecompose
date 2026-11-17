@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.deck.transition
+package io.github.munetoshi.slidecompose.deck
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,13 +7,11 @@ import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.ImageComposeScene
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Density
-import io.github.munetoshi.slidecompose.deck.Frame
-import io.github.munetoshi.slidecompose.deck.Presentation
-import io.github.munetoshi.slidecompose.deck.SlideScope
-import io.github.munetoshi.slidecompose.deck.SlideScopeImpl
 import io.github.munetoshi.slidecompose.deck.components.Reveal
-import io.github.munetoshi.slidecompose.deck.scopeFor
 import io.github.munetoshi.slidecompose.deck.theme.ProvideSlideTheme
+import io.github.munetoshi.slidecompose.deck.transition.ElementIdRecorder
+import io.github.munetoshi.slidecompose.deck.transition.LocalElementIdRecorder
+import io.github.munetoshi.slidecompose.deck.transition.elementTransition
 
 /**
  * Collects the build steps slide content uses, while a slide is composed off-screen to count
@@ -30,13 +28,6 @@ internal class StepRecorder {
 
 /** Non-null only while a slide is being composed to count its steps. */
 internal val LocalStepRecorder = staticCompositionLocalOf<StepRecorder?> { null }
-
-/** Collects the [elementTransition] ids in a frame while it is composed off-screen. */
-internal class ElementIdRecorder {
-    val ids = mutableSetOf<Any>()
-}
-
-internal val LocalElementIdRecorder = staticCompositionLocalOf<ElementIdRecorder?> { null }
 
 /**
  * Counts the build steps of the slides at [slideIndices] by composing them off-screen, all in one

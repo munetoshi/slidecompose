@@ -1,4 +1,4 @@
-package io.github.munetoshi.slidecompose.deck.transition
+package io.github.munetoshi.slidecompose.deck
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.Transition
@@ -17,12 +17,11 @@ import androidx.compose.ui.layout.Layout
 import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.round
-import io.github.munetoshi.slidecompose.deck.Frame
-import io.github.munetoshi.slidecompose.deck.Presentation
-import io.github.munetoshi.slidecompose.deck.SlideScope
-import io.github.munetoshi.slidecompose.deck.SlideSize
 import io.github.munetoshi.slidecompose.deck.components.SlideNumber
-import io.github.munetoshi.slidecompose.deck.scopeFor
+import io.github.munetoshi.slidecompose.deck.transition.ChangeLook
+import io.github.munetoshi.slidecompose.deck.transition.Motion
+import io.github.munetoshi.slidecompose.deck.transition.lookAt
+import io.github.munetoshi.slidecompose.deck.transition.totalMillis
 
 /**
  * The change of slides a stage is showing, for what its background shows of each slide, such as
@@ -31,46 +30,6 @@ import io.github.munetoshi.slidecompose.deck.scopeFor
 internal class SlideChange(val presentation: Presentation, val transition: Transition<Frame>, val motion: () -> Motion)
 
 internal val LocalSlideChange = staticCompositionLocalOf<SlideChange?> { null }
-
-/**
- * How the parts of the old and the new slide look, a [fraction] of the way through a change of
- * slides by [Motion]: as the slides themselves do. Shifts are in slide widths and heights.
- */
-internal data class ChangeLook(val oldAlpha: Float, val newAlpha: Float, val oldShift: Offset, val newShift: Offset)
-
-internal fun Motion.lookAt(fraction: Float): ChangeLook =
-    when (val t = transition) {
-        ResolvedTransition.None -> ChangeLook(0f, 1f, Offset.Zero, Offset.Zero)
-        is ResolvedTransition.Fade -> ChangeLook(1f - fraction, fraction, Offset.Zero, Offset.Zero)
-        is ResolvedTransition.ElementTransition -> {
-            val millis = fraction * t.timeline.totalMillis
-            ChangeLook(1f - t.timeline.fadeOut.at(millis), t.timeline.fadeIn.at(millis), Offset.Zero, Offset.Zero)
-        }
-        is ResolvedTransition.Push -> {
-            // Where the new slide comes from, as in contentTransform.
-            val from = when (t.direction) {
-                PushDirection.Left -> Offset(1f, 0f)
-                PushDirection.Right -> Offset(-1f, 0f)
-                PushDirection.Up -> Offset(0f, 1f)
-                PushDirection.Down -> Offset(0f, -1f)
-            } * (if (forward) 1f else -1f)
-            val eased = t.easing.transform(fraction)
-            ChangeLook(1f, 1f, oldShift = -from * eased, newShift = from * (1f - eased))
-        }
-    }
-
-/** How long a change of slides by this takes. */
-internal val ResolvedTransition.totalMillis: Int
-    get() = when (this) {
-        ResolvedTransition.None -> 0
-        is ResolvedTransition.Fade -> durationMillis
-        is ResolvedTransition.Push -> durationMillis
-        is ResolvedTransition.ElementTransition -> timeline.totalMillis
-    }
-
-/** How far through this window [millis] is, from 0 to 1. */
-private fun TimeWindow.at(millis: Float): Float =
-    if (durationMillis <= 0) (if (millis >= startMillis) 1f else 0f) else ((millis - startMillis) / durationMillis).coerceIn(0f, 1f)
 
 /**
  * Shows [content] for the slide on screen, in a stage's background, which stays still while the

@@ -18,6 +18,7 @@ Packages are under `io.github.munetoshi.slidecompose`, one per feature.
 | `viewer.app`, `viewer.home`, `viewer.compile`, `viewer.theme`, `viewer.cli`, `viewer.about`, `viewer.safemode` | The app |
 
 `player` uses `deck`; `deck` does not refer to `player`.
+The library's packages depend on each other in one direction, except `deck` and `deck.theme`, which use each other's public names (`PackageDependenciesTest` checks this).
 
 ## How it works, and limits
 

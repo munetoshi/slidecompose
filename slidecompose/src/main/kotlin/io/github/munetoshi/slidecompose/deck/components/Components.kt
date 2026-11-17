@@ -27,6 +27,8 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.takeOrElse
+import io.github.munetoshi.slidecompose.deck.ChangesWithSlides
+import io.github.munetoshi.slidecompose.deck.LocalStepRecorder
 import io.github.munetoshi.slidecompose.deck.PresentationBuilder
 import io.github.munetoshi.slidecompose.deck.SlideScope
 import io.github.munetoshi.slidecompose.deck.theme.BulletTheme
@@ -36,9 +38,7 @@ import io.github.munetoshi.slidecompose.deck.theme.RevealStyle
 import io.github.munetoshi.slidecompose.deck.theme.SlideTheme
 import io.github.munetoshi.slidecompose.deck.theme.TitleAndContentTheme
 import io.github.munetoshi.slidecompose.deck.theme.TitleSlideTheme
-import io.github.munetoshi.slidecompose.deck.transition.ChangesWithSlides
 import io.github.munetoshi.slidecompose.deck.transition.ElementTransitionMode
-import io.github.munetoshi.slidecompose.deck.transition.LocalStepRecorder
 import io.github.munetoshi.slidecompose.deck.transition.elementTransition
 
 /** Applies [elementTransition] only when [id] is non-null. */
