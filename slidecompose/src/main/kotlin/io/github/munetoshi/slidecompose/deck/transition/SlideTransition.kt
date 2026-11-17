@@ -17,7 +17,6 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.runtime.Immutable
 import androidx.compose.ui.geometry.Offset
-import io.github.munetoshi.slidecompose.deck.Frame
 import io.github.munetoshi.slidecompose.deck.theme.FadeStyle
 import io.github.munetoshi.slidecompose.deck.theme.SlideStyle
 
@@ -112,7 +111,7 @@ internal data class Motion(val transition: ResolvedTransition, val forward: Bool
     }
 }
 
-internal fun AnimatedContentTransitionScope<Frame>.contentTransform(motion: Motion): ContentTransform {
+internal fun AnimatedContentTransitionScope<*>.contentTransform(motion: Motion): ContentTransform {
     val noSize = SizeTransform(clip = false) { _, _ -> snap() }
     return when (val t = motion.transition) {
         ResolvedTransition.None -> ContentTransform(EnterTransition.None, ExitTransition.None, sizeTransform = noSize)
