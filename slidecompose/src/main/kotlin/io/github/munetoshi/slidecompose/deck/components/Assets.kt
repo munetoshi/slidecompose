@@ -25,8 +25,8 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
+import io.github.munetoshi.slidecompose.deck.LocalStepRecorder
 import io.github.munetoshi.slidecompose.deck.theme.SlideTheme
-import io.github.munetoshi.slidecompose.deck.transition.LocalStepRecorder
 import java.io.File
 import org.jetbrains.skia.FilterMipmap
 import org.jetbrains.skia.FilterMode

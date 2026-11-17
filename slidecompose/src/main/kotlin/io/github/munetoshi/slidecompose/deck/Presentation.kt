@@ -11,8 +11,6 @@ import io.github.munetoshi.slidecompose.deck.theme.SlideStyleBuilder
 import io.github.munetoshi.slidecompose.deck.theme.SlideTheme
 import io.github.munetoshi.slidecompose.deck.theme.with
 import io.github.munetoshi.slidecompose.deck.transition.SlideTransition
-import io.github.munetoshi.slidecompose.deck.transition.discoverElementIds
-import io.github.munetoshi.slidecompose.deck.transition.discoverSteps
 import java.util.concurrent.ConcurrentHashMap
 import kotlin.time.Duration
 

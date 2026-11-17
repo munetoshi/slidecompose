@@ -19,6 +19,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import androidx.compose.runtime.compositionLocalOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.staticCompositionLocalOf
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.composed
@@ -82,6 +83,13 @@ private class MatchingWhileElementTransition(private val context: ElementTransit
 
 /** Non-null only while rendering a slide inside an animated stage. */
 internal val LocalElementTransition = compositionLocalOf<ElementTransitionContext?> { null }
+
+/** Collects the [elementTransition] ids in a frame while it is composed off-screen. */
+internal class ElementIdRecorder {
+    val ids = mutableSetOf<Any>()
+}
+
+internal val LocalElementIdRecorder = staticCompositionLocalOf<ElementIdRecorder?> { null }
 
 /** How the elements with element transition ids look in the frames on screen. */
 internal class ElementLooks {
