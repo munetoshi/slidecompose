@@ -18,7 +18,7 @@ buildscript {
         constraints {
             // Licensee reads POMs with Maven's model builder, which brings plexus-utils 3.6.0:
             // CVE-2025-67030, directory traversal in extractFile. Remove once Licensee brings 3.6.1 or later.
-            classpath("org.codehaus.plexus:plexus-utils:3.6.2")
+            classpath("org.codehaus.plexus:plexus-utils:3.6.4")
         }
     }
 }
